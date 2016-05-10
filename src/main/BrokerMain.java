@@ -2,6 +2,8 @@ package main;
 
 import java.io.IOException;
 
+import manager.ConnectionsManager;
+
 public class BrokerMain {
 	
 	public static final int DEFAULT_PORT = 6969;
@@ -27,7 +29,9 @@ public class BrokerMain {
 			manager = new ConnectionsManager(port);
 		} catch (IOException e) {
 			// TODO: Log unable to bind port
+			e.printStackTrace();
 		}
+		manager.run();
 	}
 	
 }

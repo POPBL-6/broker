@@ -40,35 +40,46 @@ public class SocketConnection implements Connection {
 			InputStream in = socket.getInputStream();
 			int messageLength;
 			int read;
+			int next;
 			byte[] messageBytes;
 			try {
 				while(!socket.isClosed()) {
 					messageLength = 0;
 					read = 0;
-					for(int i = 0 ; i < Integer.SIZE ; i++) {
-						messageLength += in.read()<<(Byte.SIZE*i);
+					for(int i = 0 ; i < Integer.BYTES ; i++) {
+						next = in.read();
+						if(next==-1) {
+							throw new SocketException("End of stream reached");
+						}
+						messageLength += next<<(Byte.SIZE*i);
 					}
 					messageBytes = new byte[messageLength];
 					while(read < messageLength) {
-						in.read(messageBytes, read, messageLength-read);
+						read += in.read(messageBytes, read, messageLength-read);
 					}
 					//TODO: Log mensaje recibido
 					try {
 						messagesIn.put(Message.fromByteArray(messageBytes));
 					} catch(NullPointerException nullException) {
 						//TODO: Log bad Message
+						if(!isClosed()) nullException.printStackTrace();
 					}
 				}
 			} catch(SocketException sockException) {
 				//Socket was closed
+				if(!isClosed()) sockException.printStackTrace();
 			} catch(InterruptedException interruptException) {
 				//BlockingQueue interrupted
+				if(!isClosed()) interruptException.printStackTrace();
 			}
 		}  catch(IOException ioException) {
 			//TODO: Log
-			try {
-				close();
-			} catch (IOException e) {}
+			if(!isClosed()) {
+				ioException.printStackTrace();
+				try {
+					close();
+				} catch (IOException e) {}
+			}
 		}
 	}
 	
@@ -76,11 +87,11 @@ public class SocketConnection implements Connection {
 		try {
 			OutputStream out = socket.getOutputStream();
 			byte[] send;
-			byte[] sendLength = new byte[Integer.SIZE];
+			byte[] sendLength = new byte[Integer.BYTES];
 			try {
 				while(!socket.isClosed()) {
 					send = messagesOut.take().toByteArray();
-					for(int i = 0 ; i < Integer.SIZE ; i++) {
+					for(int i = 0 ; i < Integer.BYTES ; i++) {
 						sendLength[i] = (byte)(send.length>>(Byte.SIZE*i));
 					}
 					send = ArrayUtils.concat(sendLength,send);
@@ -88,14 +99,19 @@ public class SocketConnection implements Connection {
 				}
 			} catch(SocketException sockException) {
 				//Socket was closed
+				if(!isClosed()) sockException.printStackTrace();
 			} catch(InterruptedException interruptException) {
 				//BlockingQueue interrupted
+				if(!isClosed()) interruptException.printStackTrace();
 			}
 		}  catch(IOException ioException) {
 			//TODO: Log
-			try {
-				close();
-			} catch (IOException e) {}
+			if(!isClosed()) {
+				ioException.printStackTrace();
+				try {
+					close();
+				} catch (IOException e) {}
+			}
 		}
 	}
 
@@ -107,14 +123,14 @@ public class SocketConnection implements Connection {
 		messagesOut.put(message);
 	}
 
-	public void close() throws IOException {
+	public synchronized void close() throws IOException {
 		socket.close();
 		socket = null;
 		messagesIn = null;
 		messagesOut = null;
 	}
 
-	public boolean isClosed() {
+	public synchronized boolean isClosed() {
 		return socket==null;
 	}
 	
