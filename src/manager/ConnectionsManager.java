@@ -50,10 +50,8 @@ public class ConnectionsManager extends Thread {
 		} catch (IOException e) {}
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
 		for(int i = 0 ; i < connections.length ; i++) {
-			try {
-				subscriptions.remove(connections[i]);
-				connections[i].close();
-			} catch (IOException e) {}
+			subscriptions.remove(connections[i]);
+			connections[i].close();
 		}
 	}
 	

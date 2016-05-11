@@ -2,14 +2,13 @@ package main;
 
 import java.io.IOException;
 
+import connection.SocketConnection;
 import manager.ConnectionsManager;
 
 public class BrokerMain {
 	
-	public static final int DEFAULT_PORT = 6969;
-	
 	ConnectionsManager manager;
-	int port = DEFAULT_PORT;
+	int port = SocketConnection.DEFAULT_PORT;
 
 	public static void main(String[] args) {
 		BrokerMain b = new BrokerMain();
@@ -31,6 +30,8 @@ public class BrokerMain {
 			// TODO: Log unable to bind port
 			e.printStackTrace();
 		}
+		//TODO: Log
+		System.out.println("Starting Broker: port="+port);
 		manager.run();
 	}
 	

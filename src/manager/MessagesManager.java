@@ -1,6 +1,5 @@
 package manager;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -85,10 +84,10 @@ public class MessagesManager extends Thread {
 			}
 		} catch (InterruptedException e) {
 			//Interrupted
+		} catch (NullPointerException e) {
+			//Interrupted
 		}
-		try {
-			connection.close();
-		} catch (IOException e) {}
+		connection.close();
 		subscriptions.remove(connection);
 		//TODO: Log disconection
 	}
