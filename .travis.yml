@@ -1,3 +1,12 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
+deploy:
+  provider: openshift
+  user: olaldiko
+  password:
+    secure: QzDu7k0MVQPTDneFU8vRUL9m5g99PGMk+hEZuYaO77ueaW1MuLKCCEltZFkjbZI76/U1BXGQxxnKtjbmZYTYF9rXIzatwT0KHiIn5JVUm+uJAT2hAmYWLL1UIB9b9o2y4Xujr4HBQfhWMdyV5+LLZZtL4X9tIV6WXBute+CWaqknryVxBxh5tslVZLMlzlWKW00YPxip6pQ3DBHgnBBYaemm2mn//jt5r8fvKc7P3WEmuqBNNKw3fsrKCAl7xOmWtedm+z9jSe4t98DfyXIlLLm/VxDPMnpBgfkXH525VpEY5n2YJsQ4KP8q88BZUSu0qKkKsa7wIhvnwShmiA6LHd+TgSeZb99yYZv365uNc/cNcUJyFa/MMqeLuBnJmXQxb7Mv/ji1I0Qu9YAFKceFlCyzxyj5a4ginytc3yGV0gOkMK8C8bmetXPBqvY+rqKuYPPhpsTHE5+XPGfgN5Xavtwt4oEMdGYNpGAPt+iUQhmI6g5y3xyBYTzM5HbSQtdMJeUuBq22qlv3EgEsri2MQOPwY5TXwqC9enIGzPTDE7v0aGci4a09ZkRNCjCkD6QjYZcAxNZSqDVuefq4UDMheaGWTRXsPV1ZKRdPHoIu+MFDoxIprqRrnRrhAJKuAlpshyDYYubOxNTjPwmXShxHs32D7ZHyHJGJ8O2pZ6JziTE=
+  app: broker
+  domain: olaldiko
+  on:
+    repo: POPBL-6/broker
