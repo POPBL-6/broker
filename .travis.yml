@@ -1,3 +1,19 @@
 language: java
 jdk:
 - oraclejdk8
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "XrBaSVsiUsJkHLIaYw/cP3l4LiMzFbqVL9QNiu5RUIcT0XaAiuCcZaGc1wfni7EiJQmjTvuK2Wb+eQdCa6+GViDggMtGGZAggMMilTSvIjA8W01FhS9ikedKvzYLlYDEhUF5XxKq2mt+eXXBuLh/OWXXH4mMPyw/1dkphYw/BLJdwciKt85OJg2U8aE49Il5rtMbLDhzfu0FmTPjJPuQ7vOUNNhoLqUT+1z0i4fkQ0enUd44hDXWrIIKtxrD1CzO22yNJ/4DPqRJg0lnsXXUCJtBWmXJ3aPAz8FTlVIaO4JOIlOkUXkd+gTAhubXq/fBTI47IEHlf0dW/XSdCNb1bhI37Qo5W383xVE9ZkYnaBZT3qk3Yz3VEv4gOjbfbh99mT3WkV98EvP0D7VZBRfkFAAnkyLBfAqa7lVGNlp2RKeeG/3R/PFINbSIislZ0axzIKYkV9+cjhcQZ3Y5+B8qyykq+4W+oKcDPNHG3jarigtAF7/7HOFlzd6qDf11stu56kYfSDIq3OHNuTSaFt5ksfRPzE/EshXZs+HlzP60id9RJKGr83g+RMFsJjwRh9cMWw5MMbtzsHcPcn5amTksfIQ/D7H/yiZCehYzvWoo/0Y4YsEE3JlAxYifPqibIPP6vdtfSuiu6eHrhYt62/uxBvTtMgD6a8Xz9RHylAF2Bno="
+
+addons:
+  coverity_scan:
+    project:
+      name: "POPBL-6/broker"
+      description: "Build submitted via Travis CI"
+    notification_email: 
+        secure: "L4DeYWQb03VuJqhIiPCBIbQdAjMjHeMOkjuKVnxJ5qHpNlTx4Mun/uQAYwm5MgUhsU6oa2QCdlGlAQHzkBUnuVGV+zdbD78UmQ6qnHFyg85sc3/23uvg+4Alqn3BMJ211PU6fHlCSf/LTryLFYTXFQf5k6K/c03k3NylY46rsRviGSsINXFo6ue5JgW/12OK2rXkp0VjrSO1wyyDy44VOiEnk/GOxHNx1QWDI6lW5MeXyQklZzB2C9HD7mG0FB5lCGE3z2EPvRqZ64I27xdsZkWjPNLEsZTpMW2Lfisa6drDTwLGj+6oyESTIpebMREVjCn5ep8afohahI2ZmMX3akyiVd0YXHKH5/cnr/NMwbcuQf8p2Yw6ZdCxWjFdqRT20MmuhN77BCZRK4Do5XNRHfo/Yz6JcOxsxqW1o6SOiBB5bEvbXvU6D4HWsuszCXyg2GVBWRNrUFoUlfKO3HPU1FXiyFv5OD/92z+XXL3CbJ02ub142WzEJVTeDTNkn50w++9GI3H7JlbCDHTdXoe1vT6DyAhxyvjBnApHeR0aZwfUDsJllGN5eMAJUGz3a+yaGeFDXig01EvO2FB3qtNfXUWEuMs+OvdJeXx7WQdTvWL/7EX36oaTwkk8Y+QcUxGpvsWkYPrGj+YUKq4jEBdvo8kTv257Pg8TvHRZw6/0jyQ="
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
