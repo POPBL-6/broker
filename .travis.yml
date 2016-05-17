@@ -14,6 +14,6 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: 
         secure: "L4DeYWQb03VuJqhIiPCBIbQdAjMjHeMOkjuKVnxJ5qHpNlTx4Mun/uQAYwm5MgUhsU6oa2QCdlGlAQHzkBUnuVGV+zdbD78UmQ6qnHFyg85sc3/23uvg+4Alqn3BMJ211PU6fHlCSf/LTryLFYTXFQf5k6K/c03k3NylY46rsRviGSsINXFo6ue5JgW/12OK2rXkp0VjrSO1wyyDy44VOiEnk/GOxHNx1QWDI6lW5MeXyQklZzB2C9HD7mG0FB5lCGE3z2EPvRqZ64I27xdsZkWjPNLEsZTpMW2Lfisa6drDTwLGj+6oyESTIpebMREVjCn5ep8afohahI2ZmMX3akyiVd0YXHKH5/cnr/NMwbcuQf8p2Yw6ZdCxWjFdqRT20MmuhN77BCZRK4Do5XNRHfo/Yz6JcOxsxqW1o6SOiBB5bEvbXvU6D4HWsuszCXyg2GVBWRNrUFoUlfKO3HPU1FXiyFv5OD/92z+XXL3CbJ02ub142WzEJVTeDTNkn50w++9GI3H7JlbCDHTdXoe1vT6DyAhxyvjBnApHeR0aZwfUDsJllGN5eMAJUGz3a+yaGeFDXig01EvO2FB3qtNfXUWEuMs+OvdJeXx7WQdTvWL/7EX36oaTwkk8Y+QcUxGpvsWkYPrGj+YUKq4jEBdvo8kTv257Pg8TvHRZw6/0jyQ="
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
+    build_command_prepend: "gradle clean"
+    build_command:   "gradle -x test build"
     branch_pattern: coverity_scan
