@@ -2,11 +2,16 @@ package brokerMain;
 
 import java.io.IOException;
 
+
 import connection.SocketConnection;
 import manager.ConnectionsManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BrokerMain {
-	
+
+	Logger logger = LogManager.getRootLogger();
+
 	ConnectionsManager manager;
 	int port = SocketConnection.DEFAULT_PORT;
 
@@ -27,10 +32,9 @@ public class BrokerMain {
 		try {
 			manager = new ConnectionsManager(port);
 		} catch (IOException e) {
-			// TODO: Log unable to bind port
-			e.printStackTrace();
+			logger.fatal("Could not bind to port", e);
 		}
-		//TODO: Log
+		    logger.info("Broker successfully started at port " + port);
 		System.out.println("Starting Broker: port="+port);
 		manager.run();
 	}
