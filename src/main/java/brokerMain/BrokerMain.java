@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 public class BrokerMain {
 
-	Logger logger = LogManager.getRootLogger();
+	static final Logger logger = LogManager.getRootLogger();
 
 	ConnectionsManager manager;
 	int port = SocketConnection.DEFAULT_PORT;

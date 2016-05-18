@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ConnectionsManager extends Thread {
 
-	Logger logger = LogManager.getLogger(ConnectionsManager.class);
+	static final Logger logger = LogManager.getLogger(ConnectionsManager.class);
 	
 	public static final int CONNECTION_BUFFER_SIZE = 10;
 	public static final int DIFFUSION_QUEUE_SIZE = 10;
