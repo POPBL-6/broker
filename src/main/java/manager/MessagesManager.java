@@ -9,8 +9,12 @@ import data.MessagePublication;
 import data.MessagePublish;
 import data.MessageSubscribe;
 import data.MessageUnsubscribe;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MessagesManager extends Thread {
+
+	Logger logger = LogManager.getLogger(MessagesManager.class);
 
 	Map<Connection,List<String>> subscriptions;
 	Connection connection;
@@ -21,7 +25,7 @@ public class MessagesManager extends Thread {
 	}
 	
 	private void manageMessagePublication(MessagePublication message) {
-		//TODO: Log? No deberia ocurrir
+		logger.warn("A message publication class message was received from a non broker peer");
 	}
 	
 	private void manageMessagePublish(MessagePublish message) {
@@ -33,7 +37,7 @@ public class MessagesManager extends Thread {
 				try {
 					connections[i].writeMessage(out);
 				} catch(Exception e) {
-					//La conexion se ha cerrado antes
+					logger.error("The connection was not successfully closed before", e);
 				}
 			}
 		}
@@ -66,7 +70,7 @@ public class MessagesManager extends Thread {
 		try {
 			while(!connection.isClosed()) {
 				Message message = connection.readMessage();
-				//TODO: Log message received
+				logger.info("Message received by the messages manager");
 				switch(message.getMessageType()) {
 				case Message.MESSAGE_PUBLICATION:
 					manageMessagePublication((MessagePublication) message);
@@ -89,7 +93,7 @@ public class MessagesManager extends Thread {
 		}
 		connection.close();
 		subscriptions.remove(connection);
-		//TODO: Log disconection
+		logger.info("Messages manager has been disconnected");
 	}
 	
 }
