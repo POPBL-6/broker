@@ -11,8 +11,12 @@ import java.util.Map;
 
 import connection.Connection;
 import connection.SocketConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ConnectionsManager extends Thread {
+
+	Logger logger = LogManager.getLogger(ConnectionsManager.class);
 	
 	public static final int CONNECTION_BUFFER_SIZE = 10;
 	public static final int DIFFUSION_QUEUE_SIZE = 10;
@@ -23,7 +27,7 @@ public class ConnectionsManager extends Thread {
 	public ConnectionsManager(int port) throws IOException {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());
 		serverSocket = new ServerSocket(port);
-		//TODO: Log servSocket bound to port
+		logger.info("Server socket bound to port " + port);
 	}
 	
 	public void run() {
@@ -36,18 +40,19 @@ public class ConnectionsManager extends Thread {
 				connection.init(socket, CONNECTION_BUFFER_SIZE);
 				subscriptions.put(connection, new ArrayList<String>());
 				new MessagesManager(connection,subscriptions).start();
-				//TODO: Log new connection
+				logger.info("New connection from " + socket.getInetAddress() + " received");
 			}
 		} catch(IOException e) {
-			//TODO Log
-			e.printStackTrace();
+			logger.error("Socket error when listening to messages", e);
 		}
 	}
 	
 	public void close() {
 		try {
 			serverSocket.close();
-		} catch (IOException e) {}
+		} catch (IOException e) {
+            logger.warn("The server socket was closed while a thread was waiting on accept", e);
+        }
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
 		for(int i = 0 ; i < connections.length ; i++) {
 			subscriptions.remove(connections[i]);
