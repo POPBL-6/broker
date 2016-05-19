@@ -43,16 +43,14 @@ public class ConnectionsManager extends Thread {
 				logger.info("New connection from " + socket.getInetAddress() + " received");
 			}
 		} catch(IOException e) {
-			logger.error("Socket error when listening to messages", e);
+			logger.error("Socket error when binding port", e);
 		}
 	}
 	
 	public void close() {
 		try {
 			serverSocket.close();
-		} catch (IOException e) {
-            logger.warn("The server socket was closed while a thread was waiting on accept", e);
-        }
+		} catch (IOException e) {}
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
 		for(int i = 0 ; i < connections.length ; i++) {
 			subscriptions.remove(connections[i]);

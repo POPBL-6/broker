@@ -31,6 +31,7 @@ public class MessagesManager extends Thread {
 	private void manageMessagePublish(MessagePublish message) {
 		MessagePublication out = new MessagePublication(message, connection.toString(), System.currentTimeMillis());
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
+		logger.info("MessagePublish received from "+connection.toString()+", distributing");
 		for(int i = 0 ; i < connections.length ; i++) {
 			List<String> topics = subscriptions.get(connections[i]);
 			if(topics!=null && topics.contains(out.getTopic())) {
@@ -46,6 +47,7 @@ public class MessagesManager extends Thread {
 	private void manageMessageSubscribe(MessageSubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
+		logger.info("MessageSubscribe received from "+connection.toString());
 		if(topics!=null) {
 			subscription = subscriptions.get(connection);
 			for(int i = 0 ; i < topics.length ; i++) {
@@ -58,6 +60,7 @@ public class MessagesManager extends Thread {
 	private void manageMessageUnsubscribe(MessageUnsubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
+		logger.info("MessageUnsubscribe received from "+connection.toString());
 		if(topics!=null) {
 			subscription = subscriptions.get(connection);
 			for(int i = 0 ; i < topics.length ; i++) {
