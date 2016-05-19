@@ -9,8 +9,16 @@ import data.MessagePublication;
 import data.MessagePublish;
 import data.MessageSubscribe;
 import data.MessageUnsubscribe;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * Class in charge of managing a single Connection.
+ * It reads Message objects form the assigned Connection and acts accordingly.
+ */
 public class MessagesManager extends Thread {
+
+	static final Logger logger = LogManager.getLogger(MessagesManager.class);
 
 	Map<Connection,List<String>> subscriptions;
 	Connection connection;
@@ -21,19 +29,20 @@ public class MessagesManager extends Thread {
 	}
 	
 	private void manageMessagePublication(MessagePublication message) {
-		//TODO: Log? No deberia ocurrir
+		logger.warn("A message publication class message was received from a non broker peer");
 	}
 	
 	private void manageMessagePublish(MessagePublish message) {
 		MessagePublication out = new MessagePublication(message, connection.toString(), System.currentTimeMillis());
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
+		logger.info("MessagePublish received from "+connection.toString()+", distributing");
 		for(int i = 0 ; i < connections.length ; i++) {
 			List<String> topics = subscriptions.get(connections[i]);
 			if(topics!=null && topics.contains(out.getTopic())) {
 				try {
 					connections[i].writeMessage(out);
 				} catch(Exception e) {
-					//La conexion se ha cerrado antes
+					logger.error("The connection was not successfully closed before", e);
 				}
 			}
 		}
@@ -42,6 +51,7 @@ public class MessagesManager extends Thread {
 	private void manageMessageSubscribe(MessageSubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
+		logger.info("MessageSubscribe received from "+connection.toString());
 		if(topics!=null) {
 			subscription = subscriptions.get(connection);
 			for(int i = 0 ; i < topics.length ; i++) {
@@ -54,6 +64,7 @@ public class MessagesManager extends Thread {
 	private void manageMessageUnsubscribe(MessageUnsubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
+		logger.info("MessageUnsubscribe received from "+connection.toString());
 		if(topics!=null) {
 			subscription = subscriptions.get(connection);
 			for(int i = 0 ; i < topics.length ; i++) {
@@ -66,7 +77,7 @@ public class MessagesManager extends Thread {
 		try {
 			while(!connection.isClosed()) {
 				Message message = connection.readMessage();
-				//TODO: Log message received
+				logger.info("Message received by the messages manager");
 				switch(message.getMessageType()) {
 				case Message.MESSAGE_PUBLICATION:
 					manageMessagePublication((MessagePublication) message);
@@ -89,7 +100,7 @@ public class MessagesManager extends Thread {
 		}
 		connection.close();
 		subscriptions.remove(connection);
-		//TODO: Log disconection
+		logger.info("Messages manager has been disconnected");
 	}
 	
 }
