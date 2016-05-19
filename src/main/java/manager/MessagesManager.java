@@ -12,6 +12,10 @@ import data.MessageUnsubscribe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class in charge of managing a single Connection.
+ * It reads Message objects form the assigned Connection and acts accordingly.
+ */
 public class MessagesManager extends Thread {
 
 	static final Logger logger = LogManager.getLogger(MessagesManager.class);

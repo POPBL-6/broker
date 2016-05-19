@@ -8,6 +8,10 @@ import manager.ConnectionsManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Main class of the Middleware Broker,
+ * in charge of loading the configuration.
+ */
 public class BrokerMain {
 
 	static final Logger logger = LogManager.getRootLogger();

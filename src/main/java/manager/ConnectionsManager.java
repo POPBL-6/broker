@@ -14,6 +14,9 @@ import connection.SocketConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class in charge of accepting TCP connections and spawning a MessagesManager for each client.
+ */
 public class ConnectionsManager extends Thread {
 
 	static final Logger logger = LogManager.getLogger(ConnectionsManager.class);
