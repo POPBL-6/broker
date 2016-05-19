@@ -34,8 +34,7 @@ public class BrokerMain {
 		} catch (IOException e) {
 			logger.fatal("Could not bind to port", e);
 		}
-		    logger.info("Broker successfully started at port " + port);
-		System.out.println("Starting Broker: port="+port);
+		logger.info("Broker successfully started at port " + port);
 		manager.run();
 	}
 	
