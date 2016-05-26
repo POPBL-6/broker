@@ -22,7 +22,7 @@ public class TCPSocketImplementation implements SocketImplementation {
 
 	public Socket accept() throws IOException {
 		Socket socket = serverSocket.accept();
-	    lastClientId = socket.getRemoteSocketAddress().toString();
+	    lastClientId = socket.getInetAddress()+":"+socket.getPort();
 	    return socket;
 	}
 

@@ -36,17 +36,18 @@ public class ConnectionsManager extends Thread {
 	public void run() {
 		Socket socket;
 		SocketConnection connection;
-		try {
-			while(!socketImplementation.isClosed()) {
+		while(!socketImplementation.isClosed()) {
+			try {
 				socket = socketImplementation.accept();
 				connection = new SocketConnection();
+				connection.setConnectionId(socketImplementation.getLastClientId());
 				connection.init(socket, CONNECTION_BUFFER_SIZE);
 				subscriptions.put(connection, new ArrayList<String>());
 				new MessagesManager(connection,subscriptions).start();
 				logger.info("New connection from " + socket.getInetAddress() + " received");
+			} catch(Exception e) {
+				logger.error("Connection error: "+e.getClass()+" "+e.getMessage());
 			}
-		} catch(IOException e) {
-			logger.error("Socket error when binding port", e);
 		}
 	}
 	

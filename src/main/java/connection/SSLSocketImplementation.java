@@ -50,7 +50,8 @@ public class SSLSocketImplementation implements SocketImplementation {
 	    socket.setEnableSessionCreation(true);
 	    socket.setNeedClientAuth(true);
 	    socket.startHandshake();
-	    lastClientId = socket.getSession().getPeerHost();
+	    //TODO get the name from the certificate for lastClientId
+	    lastClientId = socket.getInetAddress()+":"+socket.getPort();
 	    return socket;
 	}
 
@@ -60,9 +61,9 @@ public class SSLSocketImplementation implements SocketImplementation {
 	
 	public static SocketImplementation getInstance(String[] args) throws Exception {
 		int port = SocketConnection.DEFAULT_PORT;
-		String trustStore = ".truststore";
+		String trustStore = ".keystore";
 		String keyStore = ".keystore";
-		String keyStorePassword = "middleware";
+		String keyStorePassword = "snowflake";
 		for(int i = 0 ; i < args.length ; i++) {
 			switch(args[i]) {
 			case "-p":
