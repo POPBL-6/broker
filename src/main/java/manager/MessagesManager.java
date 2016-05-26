@@ -33,7 +33,7 @@ public class MessagesManager extends Thread {
 	}
 	
 	private void manageMessagePublish(MessagePublish message) {
-		MessagePublication out = new MessagePublication(message, connection.toString(), System.currentTimeMillis());
+		MessagePublication out = new MessagePublication(message, connection.getConnectionId(), System.currentTimeMillis());
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
 		logger.info("MessagePublish received from "+connection.toString()+", distributing");
 		for(int i = 0 ; i < connections.length ; i++) {
