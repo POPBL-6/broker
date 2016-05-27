@@ -17,6 +17,7 @@ import connection.SocketImplementation;
 
 /**
  * Class in charge of accepting TCP connections and spawning a MessagesManager for each client.
+ * It extends Thread so that it can be run asynchronously if needed.
  */
 public class ConnectionsManager extends Thread {
 
@@ -28,11 +29,21 @@ public class ConnectionsManager extends Thread {
 	private Map<Connection,List<String>> subscriptions;
 	private SocketImplementation socketImplementation;
 	
+	/**
+	 * Creates a ConnectionsManager that will accept connections.
+	 * 
+	 * @param socketImplementation The SocketImplementation that will be used to establish new connections.
+	 */
 	public ConnectionsManager(SocketImplementation socketImplementation) throws IOException {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());
 		this.socketImplementation = socketImplementation;
 	}
 	
+	/**
+	 * Entry point for a ConnectionsManager Thread, accepts new connections with
+	 * the provided SocketImplementation and spawns a MessagesManager for each of them.
+	 * 
+	 */
 	public void run() {
 		Socket socket;
 		SocketConnection connection;
@@ -51,6 +62,11 @@ public class ConnectionsManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Closes all connections, therefore terminating their corresponding MessagesManager, as
+	 * well as the SocketImplementation provided in the constructor, thus terminating this Thread as well.
+	 * This ConnectionsManager will be left permanently unusable after performing this operation.
+	 */
 	public void close() {
 		socketImplementation.close();
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);

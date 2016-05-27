@@ -15,12 +15,24 @@ import connection.SocketImplementationFactory;
 public class BrokerMain {
 
 	private static final Logger logger = LogManager.getRootLogger();
-
+	
+	/**
+	 * Entry point of the Broker application.
+	 * 
+	 * @param args The configuration for the SocketImplementation, 
+	 * for example: "SSLSocketImplementation -p 443 -t .keystore -k .keystore -kp snowflake".
+	 */
 	public static void main(String[] args) {
 		BrokerMain b = new BrokerMain();
 		b.start(args);
 	}
 	
+	/**
+	 * Instantiates a SocketImplementation and runs a ConnectionsManager with it.
+	 * 
+	 * @param args The configuration for the SocketImplementation, 
+	 * for example: "SSLSocketImplementation -p 443 -t .keystore -k .keystore -kp snowflake".
+	 */
 	public void start(String[] args) {
 		ConnectionsManager manager;
 		SocketImplementation socketImplementation;
