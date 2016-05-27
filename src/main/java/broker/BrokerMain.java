@@ -16,8 +16,8 @@ public class BrokerMain {
 
 	private static final Logger logger = LogManager.getRootLogger();
 
-	ConnectionsManager manager;
-	SocketImplementation socketImplementation;
+	private ConnectionsManager manager;
+	private SocketImplementation socketImplementation;
 
 	public static void main(String[] args) {
 		BrokerMain b = new BrokerMain();

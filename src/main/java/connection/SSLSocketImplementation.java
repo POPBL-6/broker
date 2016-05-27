@@ -26,7 +26,7 @@ public class SSLSocketImplementation implements SocketImplementation {
 	
 	private ServerSocket serverSocket;
 	
-	String lastClientId;
+	private String lastClientId;
 	
 	public SSLSocketImplementation(int port, String trustStore, String keyStore, String keyStorePassword) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableKeyException, KeyManagementException {
 		System.setProperty("javax.net.ssl.trustStore",trustStore);

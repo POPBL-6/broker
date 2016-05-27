@@ -25,8 +25,8 @@ public class ConnectionsManager extends Thread {
 	public static final int CONNECTION_BUFFER_SIZE = 10;
 	public static final int DIFFUSION_QUEUE_SIZE = 10;
 	
-	Map<Connection,List<String>> subscriptions;
-	SocketImplementation socketImplementation;
+	private Map<Connection,List<String>> subscriptions;
+	private SocketImplementation socketImplementation;
 	
 	public ConnectionsManager(SocketImplementation socketImplementation) throws IOException {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());

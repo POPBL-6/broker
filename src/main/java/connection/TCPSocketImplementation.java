@@ -13,7 +13,7 @@ public class TCPSocketImplementation implements SocketImplementation {
 
 	private ServerSocket serverSocket;
 	
-	String lastClientId;
+	private String lastClientId;
 	
 	public TCPSocketImplementation(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
