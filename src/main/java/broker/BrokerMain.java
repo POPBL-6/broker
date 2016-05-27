@@ -16,15 +16,14 @@ public class BrokerMain {
 
 	private static final Logger logger = LogManager.getRootLogger();
 
-	private ConnectionsManager manager;
-	private SocketImplementation socketImplementation;
-
 	public static void main(String[] args) {
 		BrokerMain b = new BrokerMain();
 		b.start(args);
 	}
 	
 	public void start(String[] args) {
+		ConnectionsManager manager;
+		SocketImplementation socketImplementation;
 		try {
 			if(args.length>0) {
 				socketImplementation = SocketImplementationFactory.getSocketImplementation(args);
