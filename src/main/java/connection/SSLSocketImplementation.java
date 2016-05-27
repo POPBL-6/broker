@@ -22,11 +22,11 @@ import org.apache.logging.log4j.Logger;
 
 public class SSLSocketImplementation implements SocketImplementation {
 	
-	static final Logger logger = LogManager.getRootLogger();
+	private static final Logger logger = LogManager.getRootLogger();
 	
 	private ServerSocket serverSocket;
 	
-	String lastClientId;
+	private String lastClientId;
 	
 	public SSLSocketImplementation(int port, String trustStore, String keyStore, String keyStorePassword) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableKeyException, KeyManagementException {
 		System.setProperty("javax.net.ssl.trustStore",trustStore);

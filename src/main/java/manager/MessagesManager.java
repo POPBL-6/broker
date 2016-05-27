@@ -18,10 +18,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class MessagesManager extends Thread {
 
-	static final Logger logger = LogManager.getLogger(MessagesManager.class);
+	private static final Logger logger = LogManager.getLogger(MessagesManager.class);
 
-	Map<Connection,List<String>> subscriptions;
-	Connection connection;
+	private Map<Connection,List<String>> subscriptions;
+	private Connection connection;
 	
 	public MessagesManager(Connection connection, Map<Connection,List<String>> subscriptions) {
 		this.connection = connection;
@@ -29,7 +29,8 @@ public class MessagesManager extends Thread {
 	}
 	
 	private void manageMessagePublication(MessagePublication message) {
-		logger.warn("A message publication class message was received from a non broker peer");
+		logger.warn("A message publication class message was received from a non broker peer: "
+				+ message.getSender() + " Topic: " + message.getTopic());
 	}
 	
 	private void manageMessagePublish(MessagePublish message) {
@@ -55,8 +56,9 @@ public class MessagesManager extends Thread {
 		if(topics!=null) {
 			subscription = subscriptions.get(connection);
 			for(int i = 0 ; i < topics.length ; i++) {
-				if(!subscription.contains(topics[i]))
+				if(!subscription.contains(topics[i])) {
 					subscription.add(topics[i]);
+				}
 			}
 		}
 	}
@@ -90,6 +92,8 @@ public class MessagesManager extends Thread {
 					break;
 				case Message.MESSAGE_UNSUBSCRIBE:
 					manageMessageUnsubscribe((MessageUnsubscribe) message);
+					break;
+				default:
 					break;
 				}
 			}

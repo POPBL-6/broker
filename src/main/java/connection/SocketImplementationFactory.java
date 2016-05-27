@@ -9,7 +9,9 @@ public abstract class SocketImplementationFactory {
 	public static SocketImplementation getSocketImplementation(String[] args) throws Throwable {
 		SocketImplementation socketImplementation = null;
 		try {
-			if(args[0].equals("file")) return getSocketImplementation(getConfigurationFromFile(args[1]));
+			if(args[0].equals("file")) {
+				return getSocketImplementation(getConfigurationFromFile(args[1]));
+			}
 			else {
 				if(!args[0].contains(".")) {
 					args[0] = "connection." + args[0];
