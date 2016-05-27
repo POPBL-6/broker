@@ -20,7 +20,7 @@ import connection.SocketImplementation;
  */
 public class ConnectionsManager extends Thread {
 
-	static final Logger logger = LogManager.getLogger(ConnectionsManager.class);
+	private static final Logger logger = LogManager.getLogger(ConnectionsManager.class);
 	
 	public static final int CONNECTION_BUFFER_SIZE = 10;
 	public static final int DIFFUSION_QUEUE_SIZE = 10;

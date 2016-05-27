@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class MessagesManager extends Thread {
 
-	static final Logger logger = LogManager.getLogger(MessagesManager.class);
+	private static final Logger logger = LogManager.getLogger(MessagesManager.class);
 
 	Map<Connection,List<String>> subscriptions;
 	Connection connection;

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class TCPSocketImplementation implements SocketImplementation {
 	
-	static final Logger logger = LogManager.getRootLogger();
+	private static final Logger logger = LogManager.getRootLogger();
 
 	private ServerSocket serverSocket;
 	
