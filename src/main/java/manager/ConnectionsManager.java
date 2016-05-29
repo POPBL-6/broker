@@ -64,7 +64,7 @@ public class ConnectionsManager extends Thread {
 	
 	/**
 	 * Closes all connections, therefore terminating their corresponding MessagesManager, as
-	 * well as the SocketImplementation provided in the constructor, thus terminating this Thread as well.
+	 * well as the SocketImplementation provided in the constructor, thus terminating this Thread.
 	 * This ConnectionsManager will be left permanently unusable after performing this operation.
 	 */
 	public void close() {
