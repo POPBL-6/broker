@@ -18,6 +18,8 @@ import connection.SocketImplementation;
 /**
  * Class in charge of accepting TCP connections and spawning a MessagesManager for each client.
  * It extends Thread so that it can be run asynchronously if needed.
+ * 
+ * @author Jon Ayerdi
  */
 public class ConnectionsManager extends Thread {
 

@@ -5,7 +5,21 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
+/**
+ * Factory class for classes that extend SocketImplementation and
+ * implement the getInstance(String[]) method.
+ * 
+ * @author Jon Ayerdi
+ */
 public abstract class SocketImplementationFactory {
+	/**
+	 * Creates and returns a SocketImplementation object.
+	 * If the package is not specified, connection will be assumed.
+	 * 
+	 * @param args The configuration for the SocketImplementation.
+	 * @return The newly created SocketImplementation.
+	 * @throws Throwable The exception thrown when instantiating the SocketImplementation.
+	 */
 	public static SocketImplementation getSocketImplementation(String[] args) throws Throwable {
 		SocketImplementation socketImplementation = null;
 		try {
@@ -31,6 +45,12 @@ public abstract class SocketImplementationFactory {
 		return socketImplementation;
 	}
 	
+	/**
+	 * Reads and returns the first line of the specified file.
+	 * @param filename
+	 * @return The configuration read from the file.
+	 * @throws FileNotFoundException
+	 */
 	public static String[] getConfigurationFromFile(String filename) throws FileNotFoundException {
 		Scanner s = new Scanner(new FileInputStream(filename));
 		String config = s.nextLine();

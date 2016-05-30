@@ -21,6 +21,11 @@ import javax.net.ssl.SSLSocket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * SocketImplementation for SSL connections.
+ * 
+ * @author Jon Ayerdi
+ */
 public class SSLSocketImplementation implements SocketImplementation {
 	
 	private static final Logger logger = LogManager.getRootLogger();
@@ -31,7 +36,26 @@ public class SSLSocketImplementation implements SocketImplementation {
 	
 	private String lastClientId;
 	
-	public SSLSocketImplementation(int port, String trustStore, String keyStore, String keyStorePassword, String protocol, String cipher) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException, UnrecoverableKeyException, KeyManagementException {
+	/**
+	 * Creates a new SSLSocketImplementation object.
+	 * 
+	 * @param port
+	 * @param trustStore
+	 * @param keyStore
+	 * @param keyStorePassword
+	 * @param protocol
+	 * @param cipher
+	 * @throws KeyStoreException
+	 * @throws NoSuchAlgorithmException
+	 * @throws CertificateException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws UnrecoverableKeyException
+	 * @throws KeyManagementException
+	 */
+	public SSLSocketImplementation(int port, String trustStore, String keyStore, String keyStorePassword
+			, String protocol, String cipher) throws KeyStoreException, NoSuchAlgorithmException, CertificateException
+			, FileNotFoundException, IOException, UnrecoverableKeyException, KeyManagementException {
 		this.protocol = protocol;
 		this.cipher = cipher;
 		System.setProperty("javax.net.ssl.trustStore",trustStore);
@@ -48,6 +72,12 @@ public class SSLSocketImplementation implements SocketImplementation {
 		logger.info("SSLServerSocket bound to port "+port);
 	}
 
+	/**
+	 * Accepts an incoming connection and returns the Socket.
+	 * 
+	 * @return The Socket corresponding to the newly established connection.
+	 * @throws IOException
+	 */
 	public Socket accept() throws IOException {
 		SSLSocket socket = (SSLSocket)serverSocket.accept();
 	    socket.setEnabledCipherSuites(new String[] {cipher});
@@ -59,10 +89,23 @@ public class SSLSocketImplementation implements SocketImplementation {
 	    return socket;
 	}
 
+	/**
+	 * Returns a String that identifies the last accept()-ed client.
+	 * 
+	 * @return The String representing the last client's ID: Name from the provided certificate.
+	 */
 	public String getLastClientId() {
 		return lastClientId;
 	}
 	
+	/**
+	 * Creates a SSLSocketImplementation from the configuration. Example:
+	 * "SSLSocketImplementation -p 443 -t .truststore -k .keystore -kp password -pr TLSv1.2 -c TLS_DHE_DSS_WITH_AES_128_CBC_SHA256"
+	 * 
+	 * @param args The configuration.
+	 * @return
+	 * @throws Exception
+	 */
 	public static SocketImplementation getInstance(String[] args) throws Exception {
 		int port = SocketConnection.DEFAULT_PORT;
 		String trustStore = ".keystore";
@@ -104,12 +147,20 @@ public class SSLSocketImplementation implements SocketImplementation {
 		return new SSLSocketImplementation(port,trustStore,keyStore,keyStorePassword,protocol,cipher);
 	}
 
+	/**
+	 * Closes the underlying ServerSocket, making this object unusable for later.
+	 */
 	public void close() {
 		try {
 			serverSocket.close();
 		} catch (Exception e) {}
 	}
 	
+	/**
+	 * Returns the closed state of the underlying ServerSocket.
+	 * 
+	 * @return true if the socket has been closed .
+	 */
 	public boolean isClosed() {
 		return serverSocket.isClosed();
 	}

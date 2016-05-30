@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Class in charge of managing a single Connection.
  * It reads Message objects form the assigned Connection and acts accordingly.
+ * 
+ * @author Jon Ayerdi
  */
 public class MessagesManager extends Thread {
 
@@ -23,16 +25,33 @@ public class MessagesManager extends Thread {
 	private Map<Connection,List<String>> subscriptions;
 	private Connection connection;
 	
+	/**
+	 * Manages incoming Messages from the provided Connection.
+	 * 
+	 * @param connection The Connection used to communicate with the other end.
+	 * @param subscriptions The Map containing the subscriptions for each Connection
+	 * of this Broker.
+	 */
 	public MessagesManager(Connection connection, Map<Connection,List<String>> subscriptions) {
 		this.connection = connection;
 		this.subscriptions = subscriptions;
 	}
 	
+	/**
+	 * Determines what to do when a MessagePublication is received.
+	 * 
+	 * @param message
+	 */
 	private void manageMessagePublication(MessagePublication message) {
 		logger.warn("A message publication class message was received from a non broker peer: "
 				+ message.getSender() + " Topic: " + message.getTopic());
 	}
 	
+	/**
+	 * Determines what to do when a MessagePublish is received.
+	 * 
+	 * @param message
+	 */
 	private void manageMessagePublish(MessagePublish message) {
 		MessagePublication out = new MessagePublication(message, connection.getConnectionId(), System.currentTimeMillis());
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
@@ -49,6 +68,11 @@ public class MessagesManager extends Thread {
 		}
 	}
 
+	/**
+	 * Determines what to do when a MessageSubscribe is received.
+	 * 
+	 * @param message
+	 */
 	private void manageMessageSubscribe(MessageSubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
@@ -63,6 +87,11 @@ public class MessagesManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Determines what to do when a MessageUnsubscribe is received.
+	 * 
+	 * @param message
+	 */
 	private void manageMessageUnsubscribe(MessageUnsubscribe message) {
 		String[] topics = message.getTopics();
 		List<String> subscription;
@@ -75,6 +104,10 @@ public class MessagesManager extends Thread {
 		}
 	}
 	
+	/**
+	 * The entry point for this MessagesManager Thread. Constantly reads Messages
+	 * from the provided Connection and acts accordingly.
+	 */
 	public void run() {
 		try {
 			while(!connection.isClosed()) {

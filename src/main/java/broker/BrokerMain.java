@@ -11,6 +11,8 @@ import connection.SocketImplementationFactory;
 /**
  * Main class of the Middleware Broker,
  * in charge of loading the configuration.
+ * 
+ * @author Jon Ayerdi
  */
 public class BrokerMain {
 
