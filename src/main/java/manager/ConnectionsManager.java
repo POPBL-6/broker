@@ -76,6 +76,7 @@ public class ConnectionsManager extends Thread {
 			subscriptions.remove(connections[i]);
 			connections[i].close();
 		}
+		interrupt();
 	}
 	
 }
