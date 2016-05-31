@@ -30,17 +30,13 @@ public abstract class SocketImplementationFactory {
 				if(!args[0].contains(".")) {
 					args[0] = "connection." + args[0];
 				}
-				try {
-					socketImplementation = SocketImplementation.class.cast(Class.forName(args[0])
-							.getMethod("getInstance", String[].class).invoke(null, new Object[] {args}));
-				}catch(Exception e) {
-					throw e;
-				}
+				socketImplementation = SocketImplementation.class.cast(Class.forName(args[0])
+						.getMethod("getInstance", String[].class).invoke(null, new Object[] {args}));
 			}
 		}catch(InvocationTargetException e) {
 			throw e.getCause();
 		} catch(Exception e) {
-			throw new IllegalArgumentException(e.getClass().getName()+":"+e.getMessage());
+			throw e;
 		}
 		return socketImplementation;
 	}
