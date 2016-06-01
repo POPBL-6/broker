@@ -1,6 +1,7 @@
-package tests.connectionTests;
+package tests.connectiontests;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,8 +14,8 @@ import connection.SocketImplementationFactory;
 
 public class TestTCPSocketImplementation {
 
-	PSPort port;
-	SocketImplementation serverSocket;
+	private PSPort port;
+	private SocketImplementation serverSocket;
 
 	@Before
 	public void testAccept() throws Throwable {
@@ -36,7 +37,7 @@ public class TestTCPSocketImplementation {
 	
 	@After
 	public void testClose() {
-		assertTrue("SocketImplementation prematurely closed",!serverSocket.isClosed());
+		assertFalse("SocketImplementation prematurely closed",serverSocket.isClosed());
 		serverSocket.close();
 		assertTrue("SocketImplementation not closed",serverSocket.isClosed());
 		port.disconnect();

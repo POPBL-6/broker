@@ -1,9 +1,7 @@
-package tests.connectionTests;
+package tests.connectiontests;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -20,11 +18,6 @@ import connection.TCPSocketImplementation;
 @PowerMockIgnore("javax.management.*")
 public class TestSocketImplementationFactory extends PowerMock {
 
-	@Before
-	public void init() {
-		
-	}
-	
 	@Test
 	public void testSSLSocketImplementationCreation() throws Throwable {
 		expectNew(SSLSocketImplementation.class,1234,"trustStore","keyStore"
@@ -69,11 +62,6 @@ public class TestSocketImplementationFactory extends PowerMock {
 			assertEquals("Unexpected Exception in testSSLSocketImplementationCreation","End",e.getMessage());
 		}
 		verify(SSLSocketImplementation.class);
-	}
-	
-	@After
-	public void cleanup() {
-		
 	}
 	
 }

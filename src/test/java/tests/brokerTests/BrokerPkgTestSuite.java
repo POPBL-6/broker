@@ -1,4 +1,4 @@
-package tests.brokerTests;
+package tests.brokertests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

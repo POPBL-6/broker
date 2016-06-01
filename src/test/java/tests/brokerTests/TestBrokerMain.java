@@ -1,4 +1,4 @@
-package tests.brokerTests;
+package tests.brokertests;
 
 import static org.easymock.EasyMock.expect;
 

@@ -1,6 +1,7 @@
-package tests.managerTests;
+package tests.managertests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,13 +26,13 @@ import data.MessageUnsubscribe;
 
 public class TestMessagesManager {
 	
-	ServerSocket serverSocket;
-	Socket socket1, socket2;
+	private ServerSocket serverSocket;
+	private Socket socket1, socket2;
 	
-	SocketConnection connection1, connection2;
-	Map<Connection,List<String>> subscriptions;
+	private SocketConnection connection1, connection2;
+	private Map<Connection,List<String>> subscriptions;
 	
-	MessagesManager manager;
+	private MessagesManager manager;
 
 	@Before
 	public void init() throws Throwable {
@@ -73,6 +74,7 @@ public class TestMessagesManager {
 	public void testManageMessagePublication() throws Throwable {
 		connection1.writeMessage(new MessagePublication(new MessagePublish("Topic","Data"),"Sender",0));
 		Thread.sleep(1500);
+		assertTrue(true);
 	}
 	
 	@Test

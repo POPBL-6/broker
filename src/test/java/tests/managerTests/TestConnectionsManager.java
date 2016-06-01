@@ -1,4 +1,4 @@
-package tests.managerTests;
+package tests.managertests;
 
 import static org.easymock.EasyMock.expect;
 
@@ -10,7 +10,6 @@ import manager.ConnectionsManager;
 
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,11 +49,6 @@ public class TestConnectionsManager extends EasyMockSupport {
 		manager.close();
 		manager.join();
 		verifyAll();
-	}
-	
-	@After
-	public void cleanup() {
-		
 	}
 	
 }
