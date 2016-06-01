@@ -28,6 +28,7 @@ public class TCPSocketImplementation implements SocketImplementation {
 	 */
 	public TCPSocketImplementation(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
+		lastClientId = "None";
 		logger.info("ServerSocket bound to port "+port);
 	}
 	
