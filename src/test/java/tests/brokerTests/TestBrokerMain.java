@@ -2,7 +2,6 @@ package tests.brokertests;
 
 import static org.easymock.EasyMock.expect;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,11 +35,6 @@ public class TestBrokerMain extends PowerMock {
 		BrokerMain.main(config);
 		BrokerMain.main(new String[]{});
 		verify(SocketImplementationFactory.class);
-	}
-	
-	@After
-	public void cleanup() {
-		
 	}
 	
 }

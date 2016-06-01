@@ -17,9 +17,9 @@ import connection.SocketImplementation;
 
 public class TestConnectionsManager extends EasyMockSupport {
 
-	SocketImplementation serverSocket;
-	Socket socket;
-	ConnectionsManager manager;
+	private SocketImplementation serverSocket;
+	private Socket socket;
+	private ConnectionsManager manager;
 	
 	@Before
 	public void init() throws Throwable {
