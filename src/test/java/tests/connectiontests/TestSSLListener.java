@@ -15,7 +15,7 @@ import api.PSPortFactory;
 import connection.Listener;
 import connection.ListenerFactory;
 
-public class TestSSLSocketImplementation {
+public class TestSSLListener {
 	
 	private PSPort port;
 	private Listener serverSocket;
