@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import connection.Connection;
 import connection.SocketConnection;
-import connection.SocketImplementation;
+import connection.Listener;
 
 /**
  * Class in charge of accepting TCP connections and spawning a MessagesManager for each client.
@@ -29,31 +29,31 @@ public class ConnectionsManager extends Thread {
 	public static final int DIFFUSION_QUEUE_SIZE = 10;
 	
 	private Map<Connection,List<String>> subscriptions;
-	private SocketImplementation socketImplementation;
+	private Listener listener;
 	
 	/**
 	 * Creates a ConnectionsManager that will accept connections.
 	 * 
-	 * @param socketImplementation The SocketImplementation that will be used to establish new connections.
+	 * @param listener The Listener that will be used to establish new connections.
 	 */
-	public ConnectionsManager(SocketImplementation socketImplementation) throws IOException {
+	public ConnectionsManager(Listener listener) throws IOException {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());
-		this.socketImplementation = socketImplementation;
+		this.listener = listener;
 	}
 	
 	/**
 	 * Entry point for a ConnectionsManager Thread, accepts new connections with
-	 * the provided SocketImplementation and spawns a MessagesManager for each of them.
+	 * the provided Listener and spawns a MessagesManager for each of them.
 	 * 
 	 */
 	public void run() {
 		Socket socket;
 		SocketConnection connection;
-		while(!socketImplementation.isClosed()) {
+		while(!listener.isClosed()) {
 			try {
-				socket = socketImplementation.accept();
+				socket = listener.accept();
 				connection = new SocketConnection();
-				connection.setConnectionId(socketImplementation.getLastClientId());
+				connection.setConnectionId(listener.getLastClientId());
 				connection.init(socket, CONNECTION_BUFFER_SIZE);
 				subscriptions.put(connection, new ArrayList<String>());
 				new MessagesManager(connection,subscriptions).start();
@@ -66,11 +66,11 @@ public class ConnectionsManager extends Thread {
 	
 	/**
 	 * Closes all connections, therefore terminating their corresponding MessagesManager, as
-	 * well as the SocketImplementation provided in the constructor, thus terminating this Thread.
+	 * well as the Listener provided in the constructor, thus terminating this Thread.
 	 * This ConnectionsManager will be left permanently unusable after performing this operation.
 	 */
 	public void close() {
-		socketImplementation.close();
+		listener.close();
 		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
 		for(int i = 0 ; i < connections.length ; i++) {
 			subscriptions.remove(connections[i]);

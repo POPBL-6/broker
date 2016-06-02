@@ -8,7 +8,7 @@ import java.net.Socket;
  * 
  * @author Jon Ayerdi
  */
-public interface SocketImplementation {
+public interface Listener {
 	/**
 	 * Accepts an incoming connection and returns the Socket.
 	 * 

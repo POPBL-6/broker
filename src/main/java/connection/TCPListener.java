@@ -8,11 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * SocketImplementation for plain TCP connections.
+ * Listener for plain TCP connections.
  * 
  * @author Jon Ayerdi
  */
-public class TCPSocketImplementation implements SocketImplementation {
+public class TCPListener implements Listener {
 	
 	private static final Logger logger = LogManager.getRootLogger();
 
@@ -21,15 +21,15 @@ public class TCPSocketImplementation implements SocketImplementation {
 	private String lastClientId;
 	
 	/**
-	 * Creates a new TCPSocketImplementation object.
+	 * Creates a new TCPListener object.
 	 * 
 	 * @param port
 	 * @throws IOException
 	 */
-	public TCPSocketImplementation(int port) throws IOException {
+	public TCPListener(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
 		lastClientId = "None";
-		logger.info("ServerSocket bound to port "+port);
+		logger.info("TCPListener bound to port "+port);
 	}
 	
 	/**
@@ -54,14 +54,14 @@ public class TCPSocketImplementation implements SocketImplementation {
 	}
 	
 	/**
-	 * Creates a TCPSocketImplementation from the configuration. Example:
-	 * "TCPSocketImplementation -p 443"
+	 * Creates a TCPListener from the configuration. Example:
+	 * "TCPListener -p 443"
 	 * 
 	 * @param args The configuration.
 	 * @return
 	 * @throws Exception
 	 */
-	public static SocketImplementation getInstance(String[] args) throws Exception {
+	public static Listener getInstance(String[] args) throws Exception {
 		int port = SocketConnection.DEFAULT_PORT;
 		for(int i = 0 ; i < args.length ; i++) {
 			switch(args[i]) {
@@ -73,7 +73,7 @@ public class TCPSocketImplementation implements SocketImplementation {
 				break;
 			}
 		}
-		return new TCPSocketImplementation(port);
+		return new TCPListener(port);
 	}
 
 	/**

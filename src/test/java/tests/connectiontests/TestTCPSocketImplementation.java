@@ -9,17 +9,17 @@ import org.junit.Test;
 
 import api.PSPort;
 import api.PSPortFactory;
-import connection.SocketImplementation;
-import connection.SocketImplementationFactory;
+import connection.Listener;
+import connection.ListenerFactory;
 
 public class TestTCPSocketImplementation {
 
 	private PSPort port;
-	private SocketImplementation serverSocket;
+	private Listener serverSocket;
 
 	@Before
 	public void testAccept() throws Throwable {
-		serverSocket = SocketImplementationFactory.getSocketImplementation(new String[]{"TCPSocketImplementation"});
+		serverSocket = ListenerFactory.getListener(new String[]{"TCPListener"});
 		new Thread() {
 			public void run() {
 				try {
@@ -32,14 +32,14 @@ public class TestTCPSocketImplementation {
 	
 	@Test
 	public void testGetLastClientId() throws Throwable {
-//		assertTrue("Wrong ClientId "+serverSocket.getLastClientId(),serverSocket.getLastClientId().startsWith("/127.0.0.1:"));
+		assertTrue("Wrong ClientId "+serverSocket.getLastClientId(),serverSocket.getLastClientId().startsWith("/127.0.0.1:"));
 	}
 	
 	@After
 	public void testClose() {
-		assertFalse("SocketImplementation prematurely closed",serverSocket.isClosed());
+		assertFalse("Listener prematurely closed",serverSocket.isClosed());
 		serverSocket.close();
-		assertTrue("SocketImplementation not closed",serverSocket.isClosed());
+		assertTrue("Listener not closed",serverSocket.isClosed());
 		port.disconnect();
 	}
 	

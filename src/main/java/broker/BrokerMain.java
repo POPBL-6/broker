@@ -5,8 +5,8 @@ import manager.ConnectionsManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import connection.SocketImplementation;
-import connection.SocketImplementationFactory;
+import connection.Listener;
+import connection.ListenerFactory;
 
 /**
  * Main class of the Middleware Broker,
@@ -22,7 +22,7 @@ public class BrokerMain {
 	 * Entry point of the Broker application.
 	 * 
 	 * @param args The configuration for the SocketImplementation, 
-	 * for example: "SSLSocketImplementation -p 443 -t .keystore -k .keystore -kp snowflake".
+	 * for example: "SSLListener -p 443 -t .keystore -k .keystore -kp snowflake".
 	 */
 	public static void main(String[] args) {
 		BrokerMain b = new BrokerMain();
@@ -33,20 +33,20 @@ public class BrokerMain {
 	 * Instantiates a SocketImplementation and runs a ConnectionsManager with it.
 	 * 
 	 * @param args The configuration for the SocketImplementation, 
-	 * for example: "SSLSocketImplementation -p 443 -t .keystore -k .keystore -kp snowflake".
+	 * for example: "SSLListener -p 443 -t .keystore -k .keystore -kp snowflake".
 	 */
 	public void start(String[] args) {
 		ConnectionsManager manager;
-		SocketImplementation socketImplementation;
+		Listener listener;
 		try {
 			if(args.length>0) {
-				socketImplementation = SocketImplementationFactory.getSocketImplementation(args);
+				listener = ListenerFactory.getListener(args);
 			}
 			else {
-				socketImplementation = SocketImplementationFactory.
-						getSocketImplementation(SocketImplementationFactory.getConfigurationFromFile("broker.ini"));
+				listener = ListenerFactory.
+						getListener(ListenerFactory.getConfigurationFromFile("broker.ini"));
 			}
-			manager = new ConnectionsManager(socketImplementation);
+			manager = new ConnectionsManager(listener);
 			logger.info("Broker successfully started");
 			manager.run();
 		} catch (Throwable e) {

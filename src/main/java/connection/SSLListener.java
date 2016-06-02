@@ -22,11 +22,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * SocketImplementation for SSL connections.
+ * Listener for SSL connections.
  * 
  * @author Jon Ayerdi
  */
-public class SSLSocketImplementation implements SocketImplementation {
+public class SSLListener implements Listener {
 	
 	private static final Logger logger = LogManager.getRootLogger();
 	
@@ -37,7 +37,7 @@ public class SSLSocketImplementation implements SocketImplementation {
 	private String lastClientId;
 	
 	/**
-	 * Creates a new SSLSocketImplementation object.
+	 * Creates a new SSLListener object.
 	 * 
 	 * @param port
 	 * @param trustStore
@@ -53,7 +53,7 @@ public class SSLSocketImplementation implements SocketImplementation {
 	 * @throws UnrecoverableKeyException
 	 * @throws KeyManagementException
 	 */
-	public SSLSocketImplementation(int port, String trustStore, String keyStore, String keyStorePassword
+	public SSLListener(int port, String trustStore, String keyStore, String keyStorePassword
 			, String protocol, String cipher) throws KeyStoreException, NoSuchAlgorithmException, CertificateException
 			, FileNotFoundException, IOException, UnrecoverableKeyException, KeyManagementException {
 		lastClientId = "None";
@@ -70,7 +70,7 @@ public class SSLSocketImplementation implements SocketImplementation {
 		
 		SSLServerSocketFactory ssf = sc.getServerSocketFactory();
 		serverSocket = ssf.createServerSocket(port);
-		logger.info("SSLServerSocket bound to port "+port);
+		logger.info("SSLListener bound to port "+port);
 	}
 
 	/**
@@ -100,14 +100,14 @@ public class SSLSocketImplementation implements SocketImplementation {
 	}
 	
 	/**
-	 * Creates a SSLSocketImplementation from the configuration. Example:
-	 * "SSLSocketImplementation -p 443 -t .truststore -k .keystore -kp password -pr TLSv1.2 -c TLS_DHE_DSS_WITH_AES_128_CBC_SHA256"
+	 * Creates a SSLListener from the configuration. Example:
+	 * "SSLListener -p 443 -t .truststore -k .keystore -kp password -pr TLSv1.2 -c TLS_DHE_DSS_WITH_AES_128_CBC_SHA256"
 	 * 
 	 * @param args The configuration.
 	 * @return
 	 * @throws Exception
 	 */
-	public static SocketImplementation getInstance(String[] args) throws Exception {
+	public static Listener getInstance(String[] args) throws Exception {
 		int port = SocketConnection.DEFAULT_PORT;
 		String trustStore = ".keystore";
 		String keyStore = ".keystore";
@@ -145,7 +145,7 @@ public class SSLSocketImplementation implements SocketImplementation {
 				break;
 			}
 		}
-		return new SSLSocketImplementation(port,trustStore,keyStore,keyStorePassword,protocol,cipher);
+		return new SSLListener(port,trustStore,keyStore,keyStorePassword,protocol,cipher);
 	}
 
 	/**

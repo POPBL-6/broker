@@ -6,31 +6,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 /**
- * Factory class for classes that extend SocketImplementation and
+ * Factory class for classes that extend Listener and
  * implement the getInstance(String[]) method.
  * 
  * @author Jon Ayerdi
  */
-public abstract class SocketImplementationFactory {
+public abstract class ListenerFactory {
 	/**
-	 * Creates and returns a SocketImplementation object.
+	 * Creates and returns a Listener object.
 	 * If the package is not specified, connection will be assumed.
 	 * 
-	 * @param args The configuration for the SocketImplementation.
+	 * @param args The configuration for the Listener.
 	 * @return The newly created SocketImplementation.
-	 * @throws Throwable The exception thrown when instantiating the SocketImplementation.
+	 * @throws Throwable The exception thrown when instantiating the Listener.
 	 */
-	public static SocketImplementation getSocketImplementation(String[] args) throws Throwable {
-		SocketImplementation socketImplementation = null;
+	public static Listener getListener(String[] args) throws Throwable {
+		Listener listener = null;
 		try {
 			if(args[0].equals("file")) {
-				return getSocketImplementation(getConfigurationFromFile(args[1]));
+				return getListener(getConfigurationFromFile(args[1]));
 			}
 			else {
 				if(!args[0].contains(".")) {
 					args[0] = "connection." + args[0];
 				}
-				socketImplementation = SocketImplementation.class.cast(Class.forName(args[0])
+				listener = Listener.class.cast(Class.forName(args[0])
 						.getMethod("getInstance", String[].class).invoke(null, new Object[] {args}));
 			}
 		}catch(InvocationTargetException e) {
@@ -38,7 +38,7 @@ public abstract class SocketImplementationFactory {
 		} catch(Exception e) {
 			throw e;
 		}
-		return socketImplementation;
+		return listener;
 	}
 	
 	/**
