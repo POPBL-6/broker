@@ -13,17 +13,17 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
-import connection.SocketImplementation;
+import connection.Listener;
 
 public class TestConnectionsManager extends EasyMockSupport {
 
-	private SocketImplementation serverSocket;
+	private Listener serverSocket;
 	private Socket socket;
 	private ConnectionsManager manager;
 	
 	@Before
 	public void init() throws Throwable {
-		serverSocket = createStrictMock(SocketImplementation.class);
+		serverSocket = createStrictMock(Listener.class);
 		socket = createMock(Socket.class);
 		manager = new ConnectionsManager(serverSocket);
 	}

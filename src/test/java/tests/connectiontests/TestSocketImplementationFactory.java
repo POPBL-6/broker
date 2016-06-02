@@ -9,59 +9,59 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import connection.SSLSocketImplementation;
-import connection.SocketImplementationFactory;
-import connection.TCPSocketImplementation;
+import connection.SSLListener;
+import connection.ListenerFactory;
+import connection.TCPListener;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({SSLSocketImplementation.class, TCPSocketImplementation.class})
+@PrepareForTest({SSLListener.class, TCPListener.class})
 @PowerMockIgnore("javax.management.*")
 public class TestSocketImplementationFactory extends PowerMock {
 
 	@Test
-	public void testSSLSocketImplementationCreation() throws Throwable {
-		expectNew(SSLSocketImplementation.class,1234,"trustStore","keyStore"
+	public void testSSLListenerCreation() throws Throwable {
+		expectNew(SSLListener.class,1234,"trustStore","keyStore"
 				,"keyStorePassword","protocol","cipher").andThrow(new Exception("End"));
-		replay(SSLSocketImplementation.class);
+		replay(SSLListener.class);
 		try {
-			SocketImplementationFactory.getSocketImplementation(new String[]{
-					"SSLSocketImplementation","-p","1234","-t","trustStore","-k","keyStore","-kp"
+			ListenerFactory.getListener(new String[]{
+					"SSLListener","-p","1234","-t","trustStore","-k","keyStore","-kp"
 					,"keyStorePassword","-pr","protocol","-c","cipher"
 			});
 		} catch(Exception e){
-			assertEquals("Unexpected Exception in testSSLSocketImplementationCreation","End",e.getMessage());
+			assertEquals("Unexpected Exception in testSSLListenerCreation","End",e.getMessage());
 		}
-		verify(SSLSocketImplementation.class);
+		verify(SSLListener.class);
 	}
 	
 	@Test
-	public void testTCPSocketImplementationCreation() throws Throwable {
-		expectNew(TCPSocketImplementation.class,9875).andThrow(new Exception("End"));
-		replay(TCPSocketImplementation.class);
+	public void testTCPListenerCreation() throws Throwable {
+		expectNew(TCPListener.class,9875).andThrow(new Exception("End"));
+		replay(TCPListener.class);
 		try {
-			SocketImplementationFactory.getSocketImplementation(new String[]{
-					"TCPSocketImplementation","-p","9875","-t","trustStore","-k","keyStore","-kp"
+			ListenerFactory.getListener(new String[]{
+					"TCPListener","-p","9875","-t","trustStore","-k","keyStore","-kp"
 					,"keyStorePassword","-pr","protocol","-c","cipher"
 			});
 		} catch(Exception e){
-			assertEquals("Unexpected Exception in testTCPSocketImplementationCreation","End",e.getMessage());
+			assertEquals("Unexpected Exception in testTCPListenerCreation","End",e.getMessage());
 		}
-		verify(TCPSocketImplementation.class);
+		verify(TCPListener.class);
 	}
 	
 	@Test
-	public void testSocketImplementationCreationFromFile() throws Throwable {
-		expectNew(SSLSocketImplementation.class,443,".keystore",".keystore"
+	public void testListenerCreationFromFile() throws Throwable {
+		expectNew(SSLListener.class,443,".keystore",".keystore"
 				,"snowflake","TLSv1.2","TLS_DHE_DSS_WITH_AES_128_CBC_SHA256").andThrow(new Exception("End"));
-		replay(SSLSocketImplementation.class);
+		replay(SSLListener.class);
 		try {
-			SocketImplementationFactory.getSocketImplementation(new String[]{
+			ListenerFactory.getListener(new String[]{
 					"file","broker.ini"
 			});
 		} catch(Exception e){
-			assertEquals("Unexpected Exception in testSSLSocketImplementationCreation","End",e.getMessage());
+			assertEquals("Unexpected Exception in testListenerCreationFromFile","End",e.getMessage());
 		}
-		verify(SSLSocketImplementation.class);
+		verify(SSLListener.class);
 	}
 	
 }

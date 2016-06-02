@@ -4,30 +4,39 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.util.concurrent.Semaphore;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import api.PSPort;
 import api.PSPortFactory;
-import connection.SocketImplementation;
-import connection.SocketImplementationFactory;
+import connection.Listener;
+import connection.ListenerFactory;
 
 public class TestSSLSocketImplementation {
 	
 	private PSPort port;
-	private SocketImplementation serverSocket;
+	private Listener serverSocket;
+	private Semaphore semaphore;
 	
 	@Before
 	public void testAccept() throws Throwable {
-		serverSocket = SocketImplementationFactory.getSocketImplementation(new String[]{"SSLSocketImplementation"});
+		semaphore = new Semaphore(0);
+		serverSocket = ListenerFactory.getListener(new String[]{"SSLListener"});
+		
 		new Thread() {
 			public void run() {
 				try {
+					semaphore.release();
 					serverSocket.accept();
 				} catch(Exception e) {}
 			}
 		}.start();
+		
+		semaphore.acquire();
+		Thread.sleep(1000);
 		port = PSPortFactory.getPort("PSPortSSL");
 	}
 	
@@ -40,9 +49,9 @@ public class TestSSLSocketImplementation {
 	
 	@After
 	public void testClose() throws Throwable {
-		assertFalse("SocketImplementation prematurely closed",serverSocket.isClosed());
+		assertFalse("Listener prematurely closed",serverSocket.isClosed());
 		serverSocket.close();
-		assertTrue("SocketImplementation not closed",serverSocket.isClosed());
+		assertTrue("Listener not closed",serverSocket.isClosed());
 		port.disconnect();
 	}
 	

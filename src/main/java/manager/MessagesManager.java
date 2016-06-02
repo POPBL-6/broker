@@ -110,6 +110,7 @@ public class MessagesManager extends Thread {
 	 */
 	public void run() {
 		try {
+			connection.setThreadToInterrupt(this);
 			while(!connection.isClosed()) {
 				Message message = connection.readMessage();
 				logger.info("Message received by the messages manager");
