@@ -16,7 +16,7 @@ import connection.TCPListener;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({SSLListener.class, TCPListener.class})
 @PowerMockIgnore("javax.management.*")
-public class TestSocketImplementationFactory extends PowerMock {
+public class TestListenerFactory extends PowerMock {
 
 	@Test
 	public void testSSLListenerCreation() throws Throwable {
