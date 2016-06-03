@@ -43,7 +43,7 @@ public class TestSSLListener {
 	@Test
 	public void testGetLastClientId() throws Throwable {
 		assertEquals("Wrong ClientId"
-				,"CN=Middleware,OU=Middleware,O=Middleware,L=Arrasate,ST=Basque Country,C=EU"
+				,"CN=Broker"
 				,serverSocket.getLastClientId());
 	}
 	

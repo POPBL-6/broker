@@ -113,7 +113,7 @@ public class SSLListener implements Listener {
 		String keyStore = ".keystore";
 		String keyStorePassword = "snowflake";
 		String protocol = "TLSv1.2";
-		String cipher = "TLS_DHE_DSS_WITH_AES_128_CBC_SHA256";
+		String cipher = "TLS_RSA_WITH_AES_128_CBC_SHA256";
 		for(int i = 0 ; i < args.length ; i++) {
 			switch(args[i]) {
 			case "-p":
