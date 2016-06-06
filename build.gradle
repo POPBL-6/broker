@@ -37,6 +37,7 @@ task wrapper(type: Wrapper) {
 }
 test {
 	testLogging {
+		events 'started', 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
 		exceptionFormat = 'full'
 	}
 }
