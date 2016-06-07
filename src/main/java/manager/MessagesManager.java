@@ -32,8 +32,8 @@ public class MessagesManager extends Thread {
 	 * Manages incoming Messages from the provided Connection.
 	 * 
 	 * @param connection The Connection used to communicate with the other end.
-	 * @param subscriptions The Map containing the subscriptions for each Connection
-	 * of this Broker.
+	 * @param subscriptions The Map containing the subscriptions for each Connection of this Broker.
+	 * @param constraintsManager The ConstraintsManager that decides whether a MessagePublish is accepted or not.
 	 */
 	public MessagesManager(Connection connection, Map<Connection,List<String>> subscriptions, ConstraintsManager constraintsManager) {
 		this.connection = connection;
