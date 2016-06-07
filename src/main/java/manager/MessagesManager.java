@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import connection.Connection;
+import constraint.ConstraintsManager;
 import data.Message;
 import data.MessagePublication;
 import data.MessagePublish;
 import data.MessageSubscribe;
 import data.MessageUnsubscribe;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +26,7 @@ public class MessagesManager extends Thread {
 
 	private Map<Connection,List<String>> subscriptions;
 	private Connection connection;
+	private ConstraintsManager constraintsManager;
 	
 	/**
 	 * Manages incoming Messages from the provided Connection.
@@ -32,9 +35,10 @@ public class MessagesManager extends Thread {
 	 * @param subscriptions The Map containing the subscriptions for each Connection
 	 * of this Broker.
 	 */
-	public MessagesManager(Connection connection, Map<Connection,List<String>> subscriptions) {
+	public MessagesManager(Connection connection, Map<Connection,List<String>> subscriptions, ConstraintsManager constraintsManager) {
 		this.connection = connection;
 		this.subscriptions = subscriptions;
+		this.constraintsManager = constraintsManager;
 	}
 	
 	/**
@@ -53,16 +57,18 @@ public class MessagesManager extends Thread {
 	 * @param message
 	 */
 	private void manageMessagePublish(MessagePublish message) {
-		MessagePublication out = new MessagePublication(message, connection.getConnectionId(), System.currentTimeMillis());
-		Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
-		logger.info("MessagePublish received from "+connection.toString()+", distributing");
-		for(int i = 0 ; i < connections.length ; i++) {
-			List<String> topics = subscriptions.get(connections[i]);
-			if(topics!=null && topics.contains(out.getTopic())) {
-				try {
-					connections[i].writeMessage(out);
-				} catch(Exception e) {
-					logger.error("The connection was not successfully closed before", e);
+		if(constraintsManager.checkConstraints(message, connection.getConnectionId())) {
+			MessagePublication out = new MessagePublication(message, connection.getConnectionId(), System.currentTimeMillis());
+			Connection[] connections = subscriptions.keySet().toArray(new Connection[0]);
+			logger.info("MessagePublish received from "+connection.toString()+", distributing");
+			for(int i = 0 ; i < connections.length ; i++) {
+				List<String> topics = subscriptions.get(connections[i]);
+				if(topics!=null && topics.contains(out.getTopic())) {
+					try {
+						connections[i].writeMessage(out);
+					} catch(Exception e) {
+						logger.error("The connection was not successfully closed before", e);
+					}
 				}
 			}
 		}
