@@ -51,8 +51,8 @@ public class TestListenerFactory extends PowerMock {
 	
 	@Test
 	public void testListenerCreationFromFile() throws Throwable {
-		expectNew(SSLListener.class,443,".keystore",".keystore"
-				,"snowflake","TLSv1.2","TLS_DHE_DSS_WITH_AES_128_CBC_SHA256").andThrow(new Exception("End"));
+		expectNew(SSLListener.class,5434,"broker.jks","broker.jks"
+				,"snowflake","TLSv1.2","TLS_RSA_WITH_AES_128_CBC_SHA256").andThrow(new Exception("End"));
 		replay(SSLListener.class);
 		try {
 			ListenerFactory.getListener(new String[]{

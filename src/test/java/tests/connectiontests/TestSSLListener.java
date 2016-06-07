@@ -24,7 +24,7 @@ public class TestSSLListener {
 	@Before
 	public void testAccept() throws Throwable {
 		semaphore = new Semaphore(0);
-		serverSocket = ListenerFactory.getListener(new String[]{"SSLListener"});
+		serverSocket = ListenerFactory.getListener(new String[]{"SSLListener","-k","broker.jks","-t","broker.jks"});
 		
 		new Thread() {
 			public void run() {
@@ -37,13 +37,13 @@ public class TestSSLListener {
 		
 		semaphore.acquire();
 		Thread.sleep(1000);
-		port = PSPortFactory.getPort("PSPortSSL");
+		port = PSPortFactory.getPort("PSPortSSL -k broker.jks -t broker.jks");
 	}
 	
 	@Test
 	public void testGetLastClientId() throws Throwable {
 		assertEquals("Wrong ClientId"
-				,"CN=Middleware,OU=Middleware,O=Middleware,L=Arrasate,ST=Basque Country,C=EU"
+				,"CN=Broker"
 				,serverSocket.getLastClientId());
 	}
 	
