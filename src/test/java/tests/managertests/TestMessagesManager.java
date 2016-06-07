@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import connection.Connection;
 import connection.SocketConnection;
+import constraint.ConstraintsManager;
 import data.MessagePublication;
 import data.MessagePublish;
 import data.MessageSubscribe;
@@ -38,6 +39,7 @@ public class TestMessagesManager {
 	@Before
 	public void init() throws Throwable {
 		Socket socket1;
+		ConstraintsManager constraintsManager = new ConstraintsManager();
 		semaphore = new Semaphore(0);
 		serverSocket = new ServerSocket(5434);
 		new Thread() {
@@ -63,7 +65,7 @@ public class TestMessagesManager {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());
 		subscriptions.put(connection2, new ArrayList<String>());
 		
-		manager = new MessagesManager(connection2,subscriptions);
+		manager = new MessagesManager(connection2,subscriptions,constraintsManager);
 		manager.start();
 	}
 	

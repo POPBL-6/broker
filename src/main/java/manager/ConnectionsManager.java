@@ -12,8 +12,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import connection.Connection;
-import connection.SocketConnection;
 import connection.Listener;
+import connection.SocketConnection;
+import constraint.ConstraintsManager;
 
 /**
  * Class in charge of accepting TCP connections and spawning a MessagesManager for each client.
@@ -30,15 +31,22 @@ public class ConnectionsManager extends Thread {
 	
 	private Map<Connection,List<String>> subscriptions;
 	private Listener listener;
+	private ConstraintsManager constraintsManager;
 	
 	/**
 	 * Creates a ConnectionsManager that will accept connections.
 	 * 
 	 * @param listener The Listener that will be used to establish new connections.
 	 */
-	public ConnectionsManager(Listener listener) throws IOException {
+	public ConnectionsManager(Listener listener) throws IOException, Exception {
 		subscriptions = Collections.synchronizedMap(new HashMap<Connection,List<String>>());
 		this.listener = listener;
+		try {
+			constraintsManager = new ConstraintsManager();
+			constraintsManager.loadFromFile();
+		} catch(Exception e) {
+			throw new IllegalArgumentException(e.getClass().getName()+" "+e.getMessage()+" in constraints.ini");
+		}
 	}
 	
 	/**
@@ -56,7 +64,7 @@ public class ConnectionsManager extends Thread {
 				connection.setConnectionId(listener.getLastClientId());
 				connection.init(socket, CONNECTION_BUFFER_SIZE);
 				subscriptions.put(connection, new ArrayList<String>());
-				new MessagesManager(connection,subscriptions).start();
+				new MessagesManager(connection,subscriptions,constraintsManager).start();
 				logger.info("New connection from " + socket.getInetAddress() + " received");
 			} catch(Exception e) {
 				logger.error("Connection error: "+e.getClass()+" "+e.getMessage());

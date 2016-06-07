@@ -50,7 +50,7 @@ public class BrokerMain {
 			logger.info("Broker successfully started");
 			manager.run();
 		} catch (Throwable e) {
-			logger.fatal("Could not start Broker: "+e.getClass()+" "+e.getMessage());
+			logger.fatal("Could not start Broker: "+e.getClass().getName()+" "+e.getMessage());
 		}
 	}
 	
