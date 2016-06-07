@@ -2,6 +2,7 @@ package constraint;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,13 +30,13 @@ public class ConstraintsManager {
 	}
 	
 	public void loadFromFile() throws IOException, Exception {
-		loadFromFile(DEFAULT_FILE);
+		loadFromFile(new FileInputStream(DEFAULT_FILE));
 	}
 	
-	public void loadFromFile(String file) throws IOException, Exception {
+	public void loadFromFile(InputStream inStream) throws IOException, Exception {
 		String input;
 		List<String> lines;
-		Scanner in = new Scanner(new FileInputStream(file));
+		Scanner in = new Scanner(inStream);
 		while(in.hasNextLine()) {
 			lines = new ArrayList<String>();
 			do {
