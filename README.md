@@ -4,7 +4,7 @@
 Application that serves as our central server for managing all the messages coming from our middleware implementations.
 
 ## What this is
-This application is neccesary for an application using <a href=https://github.com/POPBL-6/middleware>Middleware</a>
+This application is neccesary for the clients using <a href=https://github.com/POPBL-6/middleware>Middleware</a>
 to communicate with other peers.
 
 ## How to use it
