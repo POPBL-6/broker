@@ -1,7 +1,10 @@
 # Middleware broker application
 
 [![Build Status](https://travis-ci.org/POPBL-6/broker.svg?branch=master)](https://travis-ci.org/POPBL-6/broker)
-[![Coverity Status](https://scan.coverity.com/projects/8889/badge.svg)](https://scan.coverity.com/projects/popbl-6-broker)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4ddb41b8f7a24935b5ecc79ecef66d09)](https://www.codacy.com/app/POPBL6/broker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=POPBL-6/broker&amp;utm_campaign=Badge_Grade)
+
+[JavaDocs](http://popbl-6.github.io/broker/)
 
 Application that serves as our central server for managing all the messages coming from our middleware implementations.
 
